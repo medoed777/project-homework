@@ -14,7 +14,7 @@ def get_mask_card_number(card_number: str) -> str:
     return masked_number
 
 
-# def get_mask_card_number(card_number: str) -> str:    Дошло чуть позже, но решил отправить, какой код более приемлем?
+# def get_mask_card_number(card_number: str) -> str:
 #    """Функция, скрывает символы номера карты и заменяет их на *"""
 #    if len(card_number) != 16 or not card_number.isdigit():
 #        return 'Неправильно введён номер карты!'

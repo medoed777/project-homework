@@ -1,17 +1,16 @@
 from src.widget import get_mask_account, get_mask_card_number, mask_account_card, get_date
 
 if __name__ == "__main__":
-    print(get_mask_card_number("1234567891012345"))
-    print(get_mask_card_number("1234567891012d"))
-    print(get_mask_card_number("123456789101212"))
-    print(get_mask_account("1247188571985781"))
-    print(get_mask_account("12471as85781"))
-    print(get_mask_account("124713262235235285781"))
+    card_nums = [
+        "Maestro 1596837868705199",
+        "Счет 64686473678894779589",
+        "MasterCard 715830073472346758",
+        "Счет 3538303347444789556068768",
+        "Visa Classic 6831982476737658",
+        "Visa Platinum 8990922113665229",
+        "Visa Gold 5999414228426353",
+        "Счет 7365"
+    ]
 
-    print(mask_account_card("Счет 73654108430135874305"))
-    print(mask_account_card("Visa Platinum 7000792289606361"))
-    print(mask_account_card("Maestro 7000792289606361"))
-    print(mask_account_card("Счет 1234"))
-    print(mask_account_card("Maestro 7000792289606361123"))
-
-    print(get_date("2024-03-11T02:26:18.671407"))
+    for card in card_nums:
+        print(mask_account_card(card))

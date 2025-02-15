@@ -10,9 +10,13 @@ def mask_account_card(mask_card: str) -> str:
     number = card[-1]
 
     if "Счет" in mask_card:
+        if "Неправильно введён номер счета!" in get_mask_account(number):
+            return "Неправильно введён номер счета!"
         return f"{card_type} {get_mask_account(number)}"
 
     else:
+        if "Неправильно введён номер карты!" in get_mask_card_number(number):
+            return "Неправильно введён номер карты!"
         return f"{card_type} {get_mask_card_number(number)}"
 
 
