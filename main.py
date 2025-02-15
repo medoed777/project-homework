@@ -1,5 +1,4 @@
-from src.widget import *
-
+from src.widget import get_mask_account, get_mask_card_number, mask_account_card, get_date
 
 if __name__ == "__main__":
     print(get_mask_card_number("1234567891012345"))
@@ -15,10 +14,4 @@ if __name__ == "__main__":
     print(mask_account_card("Счет 1234"))
     print(mask_account_card("Maestro 7000792289606361123"))
 
-
     print(get_date("2024-03-11T02:26:18.671407"))
-
-
-
-
-

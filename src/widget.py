@@ -1,5 +1,6 @@
 from datetime import datetime
-from src.masks import *
+
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(mask_card: str) -> str:
@@ -13,7 +14,6 @@ def mask_account_card(mask_card: str) -> str:
 
     else:
         return f"{card_type} {get_mask_card_number(number)}"
-
 
 
 def get_date(iso_date: str) -> str:
