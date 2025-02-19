@@ -14,3 +14,5 @@ if __name__ == "__main__":
 
     for card in card_nums:
         print(mask_account_card(card))
+
+print(get_date("2025-06-03T02:26:18.671407"))

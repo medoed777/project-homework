@@ -23,5 +23,5 @@ def mask_account_card(mask_card: str) -> str:
 def get_date(iso_date: str) -> str:
     """Функция, обрабатывают дату ISO формата"""
     date = datetime.fromisoformat(iso_date)
-    formated_date = date.strftime("%d.%m.%y")
+    formated_date = date.strftime("%d.%m.%Y")
     return formated_date
