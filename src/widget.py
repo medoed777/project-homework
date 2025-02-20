@@ -5,11 +5,12 @@ from src.masks import get_mask_account, get_mask_card_number
 
 def mask_account_card(mask_card: str) -> str:
     """Функция, обрабатывает информацию о картах и счетах"""
+    account = "Счет"
     card = mask_card.split()
     card_type = " ".join(card[:-1])
     number = card[-1]
 
-    if "Счет" in mask_card:
+    if account in mask_card:
         if "Неправильно введён номер счета!" in get_mask_account(number):
             return "Неправильно введён номер счета!"
         return f"{card_type} {get_mask_account(number)}"
