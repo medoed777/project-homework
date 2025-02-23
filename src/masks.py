@@ -9,7 +9,7 @@ def get_mask_card_number(card_number: str) -> str:
     for pos in positions:
         list_number[pos] = "*"
 
-    masked_number = " ".join(''.join(list_number[i:i + 4]) for i in range(0, len(list_number), 4))
+    masked_number = " ".join("".join(list_number[i : i + 4]) for i in range(0, len(list_number), 4))
 
     return masked_number
 
