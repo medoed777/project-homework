@@ -42,12 +42,22 @@ def valid_cash_numbers():
         "9876543210",
     ]
 
+def test_get_mask_account_valid(valid_cash_numbers):
+    for cash_number in valid_cash_numbers:
+        result = get_mask_account(cash_number)
+        assert result == "**" + cash_number[-4:]
+
 @pytest.fixture
 def invalid_cash_numbers_too_short():
     return [
         "12345",
         "123456",
     ]
+
+def test_get_mask_account_too_short(invalid_cash_numbers_too_short):
+    for cash_number in invalid_cash_numbers_too_short:
+        result = get_mask_account(cash_number)
+        assert result == "Неправильно введён номер счета!"
 
 @pytest.fixture
 def invalid_cash_numbers_not_digits():
@@ -57,25 +67,15 @@ def invalid_cash_numbers_not_digits():
         "1234-567890",
     ]
 
-@pytest.fixture
-def invalid_cash_numbers_none():
-    return [None]
-
-
-def test_get_mask_account_valid(valid_cash_numbers):
-    for cash_number in valid_cash_numbers:
-        result = get_mask_account(cash_number)
-        assert result == "**" + cash_number[-4:]
-
-def test_get_mask_account_too_short(invalid_cash_numbers_too_short):
-    for cash_number in invalid_cash_numbers_too_short:
-        result = get_mask_account(cash_number)
-        assert result == "Неправильно введён номер счета!"
-
 def test_get_mask_account_not_digits(invalid_cash_numbers_not_digits):
     for cash_number in invalid_cash_numbers_not_digits:
         result = get_mask_account(cash_number)
         assert result == "Неправильно введён номер счета!"
+
+@pytest.fixture
+def invalid_cash_numbers_none():
+    return [None, '']
+
 
 def test_get_mask_account_none(invalid_cash_numbers_none):
     for cash_number in invalid_cash_numbers_none:
