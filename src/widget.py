@@ -26,7 +26,11 @@ def mask_account_card(mask_card: str) -> str:
 
 
 def get_date(iso_date: str) -> str:
-    """Функция, обрабатывают дату ISO формата"""
-    date = datetime.fromisoformat(iso_date)
-    formated_date = date.strftime("%d.%m.%Y")
-    return formated_date
+    if iso_date is None or iso_date.strip() == "":
+        raise ValueError("Неверный формат даты")
+
+    try:
+        date_obj = datetime.fromisoformat(iso_date.split("T")[0])
+        return date_obj.strftime("%d.%m.%Y")
+    except ValueError:
+        raise ValueError("Неверный формат даты")

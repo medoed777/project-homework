@@ -1,6 +1,11 @@
 def get_mask_card_number(card_number: str) -> str:
     """Функция, скрывает символы номера карты и заменяет их на *"""
-    if card_number is None or len(card_number) != 16 or not card_number.isdigit():
+    if card_number is None:
+        return "Неправильно введён номер карты!"
+
+    card_number = card_number.replace(" ", "")
+
+    if len(card_number) != 16 or not card_number.isdigit():
         return "Неправильно введён номер карты!"
 
     positions = [6, 7, 8, 9, 10, 11]

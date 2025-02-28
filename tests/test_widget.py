@@ -1,8 +1,10 @@
+from typing import List, Optional, Tuple
+
 import pytest
-from src.widget import mask_account_card, get_date
 
+from src.widget import get_date, mask_account_card
 
-card_nums = [
+card_nums: List[Tuple[str, str]] = [
     ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
     ("Счет 9589", "Неправильно введён номер счета!"),
     ("MasterCard 715830073472346758", "Неправильно введён номер карты!"),
@@ -13,16 +15,17 @@ card_nums = [
     ("Карта", "Неправильно введён номер карты!"),
     ("Карта ", "Неправильно введён номер карты!"),
     ("Счёт", "Неправильно введён номер счета!"),
-    ("Счет ", "Неправильно введён номер счета!")
+    ("Счет ", "Неправильно введён номер счета!"),
 ]
 
+
 @pytest.mark.parametrize("state, date", card_nums)
-def test_mask_account_card(state, date):
+def test_mask_account_card(state: Optional[str], date: str) -> None:
     assert mask_account_card(state) == date
 
 
 @pytest.fixture
-def iso_date_data():
+def test_iso_date_data() -> List[Tuple[str, str]]:
     return [
         ("2023-10-01", "01.10.2023"),
         ("2000-01-01", "01.01.2000"),
@@ -33,20 +36,26 @@ def iso_date_data():
     ]
 
 
-@pytest.mark.parametrize("iso_date, expected_output", [
-    ("2025-06-03T02:26:18.671407", "03.06.2025"),
-])
-def test_get_date(iso_date, expected_output):
+@pytest.mark.parametrize(
+    "iso_date, expected_output",
+    [
+        ("2025-06-03T02:26:18.671407", "03.06.2025"),
+    ],
+)
+def test_get_date(iso_date: str, expected_output: str) -> None:
     assert get_date(iso_date) == expected_output
 
-def test_invalid_iso_date_format():
+
+def test_invalid_iso_date_format() -> None:
     with pytest.raises(ValueError):
         get_date("invalid-date")
 
-def test_empty_string():
+
+def test_empty_string() -> None:
     with pytest.raises(ValueError):
         get_date("")
 
-def test_none_input():
-    with pytest.raises(TypeError):
+
+def test_none_input() -> None:
+    with pytest.raises(ValueError):
         get_date(None)
