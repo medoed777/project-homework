@@ -1,5 +1,10 @@
-def get_mask_card_number(card_number: str) -> str:
+def get_mask_card_number(card_number: str | None) -> str:
     """Функция, скрывает символы номера карты и заменяет их на *"""
+    if card_number is None:
+        return "Неправильно введён номер карты!"
+
+    card_number = card_number.replace(" ", "")
+
     if len(card_number) != 16 or not card_number.isdigit():
         return "Неправильно введён номер карты!"
 
@@ -22,8 +27,8 @@ def get_mask_card_number(card_number: str) -> str:
 #        return card_number[0:6] + "*" * 6 + card_number[-4:]
 
 
-def get_mask_account(cash_number: str) -> str:
+def get_mask_account(cash_number: str | None) -> str:
     """Функция, принимает номер счета и создает маску из последних символов"""
-    if len(cash_number) <= 6 or not cash_number.isdigit():
+    if cash_number is None or len(cash_number) <= 6 or not cash_number.isdigit():
         return "Неправильно введён номер счета!"
     return "*" * 2 + cash_number[-4:]
