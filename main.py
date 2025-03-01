@@ -24,6 +24,8 @@ if __name__ == "__main__":
         print(mask_account_card(card))
 
 print(get_date("2025-06-03T02:26:18.671407"))
+print(get_date("315"))
+print(get_date(""))
 
 dict_list = [
     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},

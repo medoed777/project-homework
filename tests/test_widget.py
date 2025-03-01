@@ -4,7 +4,7 @@ import pytest
 
 from src.widget import get_date, mask_account_card
 
-card_nums: List[Tuple[str, str]] = [
+card_nums: List[Tuple[str | None, str]] = [
     ("Maestro 1596837868705199", "Maestro 1596 83** **** 5199"),
     ("Счет 9589", "Неправильно введён номер счета!"),
     ("MasterCard 715830073472346758", "Неправильно введён номер карты!"),

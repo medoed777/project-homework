@@ -3,7 +3,7 @@ from datetime import datetime
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(mask_card: str) -> str:
+def mask_account_card(mask_card: str | None) -> str:
     """Функция обрабатывает информацию о картах и счетах."""
     if mask_card is None or mask_card.strip() == "":
         return "Неверные данные!"
@@ -25,7 +25,7 @@ def mask_account_card(mask_card: str) -> str:
         return f"{card_type} {get_mask_card_number(number)}"
 
 
-def get_date(iso_date: str) -> str:
+def get_date(iso_date: str | None) -> str:
     if iso_date is None or iso_date.strip() == "":
         raise ValueError("Неверный формат даты")
 
