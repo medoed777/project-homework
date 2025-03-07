@@ -26,6 +26,8 @@ if __name__ == "__main__":
 print(get_date("2025-06-03T02:26:18.671407"))
 print(get_date("315"))
 print(get_date(""))
+print(get_date(1))
+
 
 dict_list = [
     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
