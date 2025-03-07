@@ -1,6 +1,6 @@
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
-from src.generators import filter_by_currency
+from src.generators import filter_by_currency, card_number_generator
 
 if __name__ == "__main__":
     card_nums = [
@@ -72,3 +72,6 @@ transactions = [{
 usd_transactions = filter_by_currency(transactions, "USD")
 for _ in range(2):
     print(next(usd_transactions))
+
+for card_number in card_number_generator(1, 5):
+    print(card_number)
