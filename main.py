@@ -1,5 +1,6 @@
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
+from src.generators import filter_by_currency
 
 if __name__ == "__main__":
     card_nums = [
@@ -24,9 +25,7 @@ if __name__ == "__main__":
         print(mask_account_card(card))
 
 print(get_date("2025-06-03T02:26:18.671407"))
-print(get_date("315"))
-print(get_date(""))
-print(get_date(1))
+
 
 
 dict_list = [
@@ -38,3 +37,38 @@ dict_list = [
 
 print(filter_by_state(dict_list, state="EXECUTED"))
 print(sort_by_date(dict_list, False))
+
+transactions = [{
+          "id": 939719570,
+          "state": "EXECUTED",
+          "date": "2018-06-30T02:08:58.425572",
+          "operationAmount": {
+              "amount": "9824.07",
+              "currency": {
+                  "name": "USD",
+                  "code": "USD"
+              }
+          },
+          "description": "Перевод организации",
+          "from": "Счет 75106830613657916952",
+          "to": "Счет 11776614605963066702"
+      },
+      {
+              "id": 142264268,
+              "state": "EXECUTED",
+              "date": "2019-04-04T23:20:05.206878",
+              "operationAmount": {
+                  "amount": "79114.93",
+                  "currency": {
+                      "name": "USD",
+                      "code": "USD"
+                  }
+              },
+              "description": "Перевод со счета на счет",
+              "from": "Счет 19708645243227258542",
+              "to": "Счет 75651667383060284188"
+       }]
+
+usd_transactions = filter_by_currency(transactions, "USD")
+for _ in range(2):
+    print(next(usd_transactions))
