@@ -1,8 +1,8 @@
-from typing import List, Dict, Any, Tuple, Generator
+from typing import Any, Dict, List, Tuple
 
 import pytest
 
-from src.generators import filter_by_currency, card_number_generator
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 @pytest.fixture
@@ -69,24 +69,15 @@ def expected_outputs() -> Dict[Tuple[int, int], List[str]]:
             "0000 0000 0000 0002",
             "0000 0000 0000 0003",
             "0000 0000 0000 0004",
-            "0000 0000 0000 0005"
+            "0000 0000 0000 0005",
         ],
-        (10000, 10001): [
-            "0000 0000 0001 0000",
-            "0000 0000 0001 0001"
-        ],
+        (10000, 10001): ["0000 0000 0001 0000", "0000 0000 0001 0001"],
         (5, 1): [],
-        (1, 1): [
-            "0000 0000 0000 0001"
-        ]
+        (1, 1): ["0000 0000 0000 0001"],
     }
 
-@pytest.mark.parametrize("start, end", [
-    (1, 5),
-    (10000, 10001),
-    (5, 1),
-    (1, 1)
-])
+
+@pytest.mark.parametrize("start, end", [(1, 5), (10000, 10001), (5, 1), (1, 1)])
 def test_card_number_generator(expected_outputs: Dict[Tuple[int, int], List[str]], start: int, end: int) -> None:
     result = list(card_number_generator(start, end))
     assert result == expected_outputs[(start, end)]
@@ -94,5 +85,38 @@ def test_card_number_generator(expected_outputs: Dict[Tuple[int, int], List[str]
 
 @pytest.mark.parametrize("number", [0, 9999999999999999])
 def test_formatting(number: int) -> None:
-    formatted_number = f"{number:016d}"[:4] + " " + f"{number:016d}"[4:8] + " " + f"{number:016d}"[8:12] + " " + f"{number:016d}"[12:]
+    formatted_number = (
+        f"{number:016d}"[:4] + " " + f"{number:016d}"[4:8] + " " + f"{number:016d}"[8:12] + " " + f"{number:016d}"[12:]
+    )
     assert len(formatted_number.replace(" ", "")) == 16
+
+
+@pytest.fixture
+def transaction_data():
+    return {
+        "with_descriptions": [
+            {"amount": 100, "date": "2023-01-01", "description": "Оплата за услуги"},
+            {"amount": 200, "date": "2023-01-02", "description": "Перевод"},
+        ],
+        "without_descriptions": [
+            {"amount": 100, "date": "2023-01-01"},
+            {"amount": 200, "date": "2023-01-02"},
+        ],
+        "mixed": [
+            {"amount": 100, "date": "2023-01-01", "description": "Оплата за услуги"},
+            {"amount": 200, "date": "2023-01-02"},
+            {"amount": 300, "date": "2023-01-03", "description": "Перевод"},
+        ],
+        "empty": []
+    }
+
+@pytest.mark.parametrize("data_key, expected", [
+    ("with_descriptions", ["Оплата за услуги", "Перевод"]),
+    ("without_descriptions", ["Нет описания", "Нет описания"]),
+    ("mixed", ["Оплата за услуги", "Нет описания", "Перевод"]),
+    ("empty", [])
+])
+def test_transaction_descriptions(transaction_data, data_key, expected):
+    transactions = transaction_data[data_key]
+    result = list(transaction_descriptions(transactions))
+    assert result == expected
