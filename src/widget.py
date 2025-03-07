@@ -26,7 +26,7 @@ def mask_account_card(mask_card: str | None) -> str:
 
 
 def get_date(iso_date: str | None) -> str:
-    if iso_date is None or iso_date.strip() == "":
+    if iso_date is None or iso_date.strip() == "" or iso_date == int:
         raise ValueError("Неверный формат даты")
 
     try:
