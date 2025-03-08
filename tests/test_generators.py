@@ -92,7 +92,7 @@ def test_formatting(number: int) -> None:
 
 
 @pytest.fixture
-def transaction_data():
+def transaction_data() -> Any:
     return {
         "with_descriptions": [
             {"amount": 100, "date": "2023-01-01", "description": "Оплата за услуги"},
@@ -116,7 +116,7 @@ def transaction_data():
     ("mixed", ["Оплата за услуги", "Нет описания", "Перевод"]),
     ("empty", [])
 ])
-def test_transaction_descriptions(transaction_data, data_key, expected):
+def test_transaction_descriptions(transaction_data: Dict[str, List[Any]], data_key: str, expected: Any) -> None:
     transactions = transaction_data[data_key]
     result = list(transaction_descriptions(transactions))
     assert result == expected
