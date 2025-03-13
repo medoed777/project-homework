@@ -5,3 +5,4 @@ my_function ok
 my_function ok
 my_function ok
 my_function_with error: ZeroDivisionError. Inputs: (1, 0), {}
+my_function ok
