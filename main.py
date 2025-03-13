@@ -1,7 +1,7 @@
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, card_number_generator, transaction_descriptions
-
+from  src.decorators import log
 if __name__ == "__main__":
     card_nums = [
         "Maestro 1596837868705199",
@@ -79,3 +79,16 @@ for card_number in card_number_generator(1, 5):
 descriptions = transaction_descriptions(transactions)
 for _ in range(2):
     print(next(descriptions))
+
+
+@log(filename="mylog.txt")
+def my_function(x: int, y: int) -> int:
+    return x + y
+
+my_function(1, 2)
+
+@log(filename="mylog.txt")
+def my_function_with(x: int, y: int) -> float:
+    return x / y
+
+#my_function_with(1, 0)
