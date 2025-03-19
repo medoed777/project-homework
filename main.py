@@ -1,6 +1,7 @@
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, card_number_generator, transaction_descriptions
+from src.utils import load_transactions
 
 if __name__ == "__main__":
     card_nums = [
@@ -79,3 +80,7 @@ for card_number in card_number_generator(1, 5):
 descriptions = transaction_descriptions(transactions)
 for _ in range(2):
     print(next(descriptions))
+
+
+transactions = load_transactions('data/operations.json')
+print(transactions)
