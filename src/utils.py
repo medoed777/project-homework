@@ -1,9 +1,11 @@
+from typing import List, Dict, Any
 import json
-import requests
 import os
 
 
-def load_transactions(file_path: str | None) -> list[dict] | None:
+
+def load_transactions(file_path: str) -> List[Dict[str, Any]]:
+    """ Принимает на вход путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях"""
     if not os.path.isfile(file_path):
         return []
     try:
