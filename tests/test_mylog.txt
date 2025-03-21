@@ -1,0 +1,21 @@
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
+add ok
+divide ok
+divide error: ZeroDivisionError. Inputs: (1, 0), {}
