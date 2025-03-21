@@ -107,15 +107,19 @@ def transaction_data() -> Any:
             {"amount": 200, "date": "2023-01-02"},
             {"amount": 300, "date": "2023-01-03", "description": "Перевод"},
         ],
-        "empty": []
+        "empty": [],
     }
 
-@pytest.mark.parametrize("data_key, expected", [
-    ("with_descriptions", ["Оплата за услуги", "Перевод"]),
-    ("without_descriptions", ["Нет описания", "Нет описания"]),
-    ("mixed", ["Оплата за услуги", "Нет описания", "Перевод"]),
-    ("empty", [])
-])
+
+@pytest.mark.parametrize(
+    "data_key, expected",
+    [
+        ("with_descriptions", ["Оплата за услуги", "Перевод"]),
+        ("without_descriptions", ["Нет описания", "Нет описания"]),
+        ("mixed", ["Оплата за услуги", "Нет описания", "Перевод"]),
+        ("empty", []),
+    ],
+)
 def test_transaction_descriptions(transaction_data: Dict[str, List[Any]], data_key: str, expected: Any) -> None:
     transactions = transaction_data[data_key]
     result = list(transaction_descriptions(transactions))
