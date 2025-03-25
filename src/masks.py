@@ -1,21 +1,33 @@
+import logging
+
+logger = logging.getLogger("masks")
+logger.setLevel(logging.INFO)
+file_handler = logging.FileHandler("logs/masks.log", mode='w')  # Установите режим 'w' для перезаписи
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
+
 def get_mask_card_number(card_number: str | None) -> str:
     """Функция, скрывает символы номера карты и заменяет их на *"""
     if card_number is None:
+        logger.error("Неправильно введён номер карты: значение None.")
         return "Неправильно введён номер карты!"
 
     card_number = card_number.replace(" ", "")
 
     if len(card_number) != 16 or not card_number.isdigit():
+        logger.error(f"Неправильно введён номер карты: {card_number}.")
         return "Неправильно введён номер карты!"
 
-    positions = [6, 7, 8, 9, 10, 11]
-    list_number = list(card_number)
 
-    for pos in positions:
-        list_number[pos] = "*"
+    masked_number = list(card_number)
+    for pos in range(6, 12):
+        masked_number[pos] = "*"
 
-    masked_number = " ".join("".join(list_number[i : i + 4]) for i in range(0, len(list_number), 4))
 
+    masked_number = " ".join("".join(masked_number[i:i + 4]) for i in range(0, len(masked_number), 4))
+
+    logger.info(f"Маскированный номер карты: {masked_number}.")
     return masked_number
 
 
@@ -29,6 +41,14 @@ def get_mask_card_number(card_number: str | None) -> str:
 
 def get_mask_account(cash_number: str | None) -> str:
     """Функция, принимает номер счета и создает маску из последних символов"""
-    if cash_number is None or len(cash_number) <= 6 or not cash_number.isdigit():
+    if cash_number is None:
+        logger.error("Неправильно введён номер счета: значение None.")
         return "Неправильно введён номер счета!"
-    return "*" * 2 + cash_number[-4:]
+
+    if len(cash_number) <= 6 or not cash_number.isdigit():
+        logger.error(f"Неправильно введён номер счета: {cash_number}.")
+        return "Неправильно введён номер счета!"
+
+    masked_account = "*" * 2 + cash_number[-4:]
+    logger.info(f"Маскированный номер счета: {masked_account}.")
+    return masked_account

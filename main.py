@@ -105,7 +105,7 @@ transactions = load_transactions("data/operations.json")
 print(transactions)
 
 
-transaction_example = {"amount": 100.0, "currency": "USD"}
+transaction_example = {"amount": 1000000000.0, "currency": "USD"}
 
 result = conversion_currency(transaction_example)
 if result is not None:
