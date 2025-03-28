@@ -4,6 +4,7 @@ from src.processing import filter_by_state, sort_by_date
 from src.utils import load_transactions
 from src.widget import get_date, mask_account_card
 from src.generators import filter_by_currency, card_number_generator, transaction_descriptions
+from src.read_csv_xlsx import read_csv_transactions
 
 if __name__ == "__main__":
     card_nums = [
@@ -110,3 +111,11 @@ transaction_example = {"amount": 1000000000.0, "currency": "USD"}
 result = conversion_currency(transaction_example)
 if result is not None:
     print(f"Сумма транзакции в рублях: {result:.2f} RUB")
+
+
+csv_file_path = 'data/transactions.csv'
+financial_data = read_csv_transactions(csv_file_path)
+
+if financial_data:
+    for transaction in financial_data:
+        print(transaction)
