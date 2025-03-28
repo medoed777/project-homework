@@ -20,3 +20,15 @@ def read_csv_transactions(path_to_file_csv: str) -> list[dict]:
         return []
 
 
+def read_xlsx_transactions(path_to_file_xlsx: str) -> list[dict]:
+    """Считывает финансовые операции из файла Excel"""
+    try:
+        df = pd.read_excel(path_to_file_xlsx)
+
+        transactions = df.to_dict(orient='records')
+
+        return transactions
+
+    except Exception as e:
+        print(f"Ошибка при считывании файла: {e}")
+        return []
