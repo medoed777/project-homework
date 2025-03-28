@@ -5,7 +5,7 @@ def read_csv_transactions(path_to_file_csv: str) -> list[dict]:
     """Функция считывает файл CSV и возвращает список транзакций в виде словаря"""
     try:
         data = pd.read_csv(path_to_file_csv)
-        transactions = data.to_dict(orient='records')
+        transactions = data.to_dict(orient="records")
 
         return transactions
 
@@ -25,7 +25,7 @@ def read_xlsx_transactions(path_to_file_xlsx: str) -> list[dict]:
     try:
         df = pd.read_excel(path_to_file_xlsx)
 
-        transactions = df.to_dict(orient='records')
+        transactions = df.to_dict(orient="records")
 
         return transactions
 
