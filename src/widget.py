@@ -6,7 +6,7 @@ from src.masks import get_mask_account, get_mask_card_number
 def mask_account_card(mask_card: str | None) -> str:
     """Функция обрабатывает информацию о картах и счетах."""
     if mask_card is None or mask_card.strip() == "":
-        return "Неверные данные!"
+        return ""
 
     account_keywords = ["Счет", "Счёт"]
     card = mask_card.split()

@@ -1,5 +1,6 @@
-2025-03-28 17:49:03,510 - utils - INFO: Успешно загружены данные из файла: dummy_path.json.
-2025-03-28 17:49:03,514 - utils - ERROR: Ошибка декодирования JSON в файле dummy_path.json: Expecting value: line 1 column 1 (char 0).
-2025-03-28 17:49:03,516 - utils - ERROR: Ошибка декодирования JSON в файле dummy_path.json: Expecting value: line 1 column 1 (char 0).
-2025-03-28 17:49:03,517 - utils - WARNING: Файл не найден: dummy_path.json. Возвращается пустой список.
-2025-03-28 17:49:03,519 - utils - ERROR: Ошибка ввода-вывода при чтении файла dummy_path.json: File not accessible.
+2025-04-01 21:57:28,102 - utils - WARNING: Файл не найден: path/to/test_transactions.json. Возвращается пустой список.
+2025-04-01 21:57:28,152 - utils - INFO: Успешно загружены данные из файла: dummy_path.json.
+2025-04-01 21:57:28,155 - utils - ERROR: Ошибка декодирования JSON в файле dummy_path.json: Expecting value: line 1 column 1 (char 0).
+2025-04-01 21:57:28,158 - utils - ERROR: Ошибка декодирования JSON в файле dummy_path.json: Expecting value: line 1 column 1 (char 0).
+2025-04-01 21:57:28,159 - utils - WARNING: Файл не найден: dummy_path.json. Возвращается пустой список.
+2025-04-01 21:57:28,161 - utils - ERROR: Ошибка ввода-вывода при чтении файла dummy_path.json: File not accessible.

@@ -1,124 +1,94 @@
-from src.external_api import conversion_currency
-from src.decorators import log
+from src.generators import filter_by_currency
+from src.operations import filtered_operations
 from src.processing import filter_by_state, sort_by_date
+from src.read_csv_xlsx import read_csv_transactions, read_xlsx_transactions
 from src.utils import load_transactions
 from src.widget import get_date, mask_account_card
-from src.generators import filter_by_currency, card_number_generator, transaction_descriptions
-from src.read_csv_xlsx import read_csv_transactions, read_xlsx_transactions
+
+
+def main() -> None:
+    """Функция для запуска приложения в пользовательском интерфейсе"""
+    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
+
+    transactions = []
+
+    while True:
+        print("Выберите необходимый пункт меню:")
+        print("1. Получить информацию о транзакциях из JSON-файла")
+        print("2. Получить информацию о транзакциях из CSV-файла")
+        print("3. Получить информацию о транзакциях из XLSX-файла")
+
+        choice = input("Пользователь: ")
+
+        if choice in ["1", "2", "3"]:
+            file_path = input("Введите путь к файлу: ")
+            try:
+                if choice == "1":
+                    transactions = load_transactions(file_path)
+                elif choice == "2":
+                    transactions = read_csv_transactions(file_path)
+                elif choice == "3":
+                    transactions = read_xlsx_transactions(file_path)
+
+                if not transactions:
+                    print("Файл не содержит транзакций.")
+                    continue
+
+                break
+            except Exception as e:
+                print(f"Ошибка при загрузке транзакций: {e}")
+        else:
+            print("Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.")
+
+    valid_states = ["EXECUTED", "CANCELED", "PENDING"]
+    while True:
+        status_input = input("Введите статус для фильтрации (EXECUTED, CANCELED, PENDING): ")
+        status = status_input.upper()
+
+        if status in valid_states:
+            filtered_transactions = filter_by_state(transactions, state=status)
+            break
+        else:
+            print(f"Статус операции {status_input} недоступен.")
+
+    sort_choice = input("Отсортировать операции по дате? Да/Нет\nПользователь: ").strip().lower()
+    if sort_choice == "да":
+        order_choice = input("Отсортировать по возрастанию или по убыванию?\nПользователь: ").strip().lower()
+        reverse = order_choice in ["убыванию", "по убыванию"]
+        filtered_transactions = sort_by_date(filtered_transactions, reverse=reverse)
+
+    currency_filter_choice = input("Выводить только рублевые транзакции? Да/Нет\nПользователь: ").strip().lower()
+    if currency_filter_choice == "да":
+        filtered_transactions = filter_by_currency(filtered_transactions, "RUB")
+
+    search_choice = input("Хотите выполнить поиск по описанию транзакций? Да/Нет\nПользователь: ").strip().lower()
+    if search_choice == "да":
+        search_string = input("Введите строку для поиска:\nПользователь: ")
+        filtered_transactions = filtered_operations(filtered_transactions, search_string)
+
+    print("Распечатываю итоговый список транзакций...")
+    if filtered_transactions:
+        print(f"Всего банковских операций в выборке: {len(filtered_transactions)}")
+        for transaction in filtered_transactions:
+            date = get_date(transaction["date"])
+            description = transaction.get("description", "Без описания")
+            amount = transaction["operationAmount"]["amount"]
+            currency = transaction["operationAmount"]["currency"]["name"]
+            if "from" in transaction:
+                account_from = mask_account_card(transaction["from"])
+            else:
+                account_from = ""
+            account_to = mask_account_card(transaction.get("to", "Счет **0000"))
+
+            if account_from:
+                output_line = f"{date} {description}\n{account_from} -> {account_to}"
+            else:
+                output_line = f"{date} {description}\n{account_to}"
+
+            print(f"{output_line}\nСумма: {amount} {currency}\n")
+    else:
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации.")
+
 
 if __name__ == "__main__":
-    card_nums = [
-        "Maestro 1596837868705199",
-        "Счет 9589",
-        "MasterCard 715830073472346758",
-        "Счет 3538303347444789556068768",
-        "Visa Classic 6831982476737658",
-        "Visa Platinum 8990922113665229",
-        "Visa Gold 5999414228426353",
-        "Счет 1234123412347365",
-        "Счёт 1234",
-        "Счёт 1234123412347362626335",
-        "",
-        "Карта",
-        "Карта ",
-        "Счёт",
-        "Счет ",
-    ]
-
-    for card in card_nums:
-        print(mask_account_card(card))
-
-print(get_date("2025-06-03T02:26:18.671407"))
-
-
-
-dict_list = [
-    {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-    {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-    {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-    {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-]
-
-print(filter_by_state(dict_list, state="EXECUTED"))
-print(sort_by_date(dict_list, False))
-
-transactions = [{
-          "id": 939719570,
-          "state": "EXECUTED",
-          "date": "2018-06-30T02:08:58.425572",
-          "operationAmount": {
-              "amount": "9824.07",
-              "currency": {
-                  "name": "USD",
-                  "code": "USD"
-              }
-          },
-          "description": "Перевод организации",
-          "from": "Счет 75106830613657916952",
-          "to": "Счет 11776614605963066702"
-      },
-      {
-              "id": 142264268,
-              "state": "EXECUTED",
-              "date": "2019-04-04T23:20:05.206878",
-              "operationAmount": {
-                  "amount": "79114.93",
-                  "currency": {
-                      "name": "USD",
-                      "code": "USD"
-                  }
-              },
-              "description": "Перевод со счета на счет",
-              "from": "Счет 19708645243227258542",
-              "to": "Счет 75651667383060284188"
-       }]
-
-usd_transactions = filter_by_currency(transactions, "USD")
-for _ in range(2):
-    print(next(usd_transactions))
-
-for card_number in card_number_generator(1, 5):
-    print(card_number)
-
-descriptions = transaction_descriptions(transactions)
-for _ in range(2):
-    print(next(descriptions))
-
-
-@log(filename="mylog.txt")
-def my_function(x: int, y: int) -> int:
-    return x + y
-
-
-my_function(1, 2)
-
-
-@log(filename="mylog.txt")
-def my_function_with(x: int, y: int) -> float:
-    return x / y
-
-
-# my_function_with(1, 0)
-
-
-transactions = load_transactions("data/operations.json")
-print(transactions)
-
-
-transaction_example = {"amount": 1000000000.0, "currency": "USD"}
-
-#result = conversion_currency(transaction_example)
-#if result is not None:
-    #print(f"Сумма транзакции в рублях: {result:.2f} RUB")
-
-
-csv_file_path = 'data/transactions.csv'
-financial_data = read_csv_transactions(csv_file_path)
-
-if financial_data:
-    for transaction in financial_data:
-        print(transaction)
-
-file_path = 'data/transactions_excel.xlsx'
-transactions = read_xlsx_transactions(file_path)
-print(transactions)
+    main()

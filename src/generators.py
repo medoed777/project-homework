@@ -1,7 +1,7 @@
 from typing import Any, Dict, Generator, Iterator, List, Union
 
 
-def filter_by_currency(transactions: List[Dict[str, Any]], currency: str) -> Iterator[Dict[str, Any]]:
+def filter_by_currency(transactions: List[Dict[str, Any]], currency: str) -> Any:
     """Функция фильтрует транзакции по указанной валюте."""
     for transaction in transactions:
         if transaction["operationAmount"]["currency"]["code"] == currency:
